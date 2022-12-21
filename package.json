@@ -1,0 +1,19 @@
+{
+  "name": "typing-speed-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "prefixer": "npx postcss style.css --use autoprefixer --replace",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.20",
+    "postcss-cli": "^10.1.0",
+    "vite": "^4.0.0"
+  },
+  "browserslist": "last 20 versions"
+}

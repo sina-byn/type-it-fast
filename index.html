@@ -18,6 +18,27 @@
   </section>
   <section class="chars"></section>
   <section class="keyboard"></section>
+  <section id="result-modal" class="result-modal">
+    <div class="modal-content">
+      <div class="img-preview">
+        <img class="user-img" src="/user.png" alt="user image">
+      </div>
+      <label for="img-input" class="btn-primary">
+        Add Image
+        <input type="file" id="img-input" accept=".jpg,.jpeg,.png,.jfif,.webp">
+      </label>
+      <div class="name-field">
+        <label class="title">Full-Name :</label>
+        <input type="text">
+      </div>
+      <div class="result-field">
+        <span class="title">Result :</span>
+        <span class="result"></span>
+      </div>
+      <button type="button" class="download-btn btn-primary">Download Certificate</button>
+      <span class="form-alert"></span>
+    </div>
+  </section>
   <script type="module" src="/index.js"></script>
 </body>
 

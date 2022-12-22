@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lato&display=swap');
 
 :root {
-  --clr-succes: #00b500;
+  --clr-success: #00b500;
   --clr-error: #af0000;
   --clr-scrollbar: #636363;
+  --clr-cover: rgba(0, 0, 0, 50%);
 
   --ff-lato: 'Lato', sans-serif;
   --ff-cutive: 'Cutive Mono', monospace;
@@ -32,12 +33,32 @@ button {
   background: transparent;
   outline: 0;
   border: 0;
-  cursor: pointer;
+}
+
+input[type='text'] {
+  font-size: 1.1rem;
+  outline: 0;
+  border: 0;
+  border-bottom: 1px solid #f5f5f5;
+  background: transparent;
+  padding: 0 0.5rem 0.3rem;
+  font-family: var(--ff-cutive);
+  margin-left: 10px;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+label[for='img-input'] {
+  width: fit-content;
+  padding: 0.4rem 0.8rem 0.6rem;
+  margin: 0 auto 1rem;
 }
 
 ::-webkit-scrollbar {
   -webkit-appearance: none;
-          appearance: none;
+  appearance: none;
   width: 7px;
 }
 
@@ -51,19 +72,19 @@ button {
   height: 100vh;
   position: fixed;
   inset: 0 0;
-  z-index: 200;
+  z-index: 20;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   font-family: var(--ff-cutive);
   font-size: 2.5rem;
-  background: rgba(0, 0, 0, 50%);
+  background: var(--clr-cover);
 }
 
 .timer {
@@ -74,7 +95,7 @@ button {
   width: 0;
   height: 15px;
   position: relative;
-  background: var(--clr-succes);
+  background: var(--clr-success);
 }
 
 .timer::after {
@@ -86,12 +107,8 @@ button {
   top: 30px;
   right: 40px;
   z-index: 100;
-  -webkit-box-shadow: 1px 1px 4px #0e0e0e, 2px 2px 7px #222, -1px -1px 4px #908888,
-    -2px -2px 7px rgb(51, 51, 51);
-          box-shadow: 1px 1px 4px #0e0e0e, 2px 2px 7px #222, -1px -1px 4px #908888,
-    -2px -2px 7px rgb(51, 51, 51);
-  border-radius: 0.3rem;
   padding: 0.5rem 1rem;
+  box-shadow: 2px 2px 5px #292929, -1.5px -1.5px 5px #3d3d3d;
 }
 
 .keyboard {
@@ -113,6 +130,56 @@ button {
 .keyboard-key.pressed {
   -webkit-box-shadow: 1.5px 1.5px 4px #2c2c2c, -0.5px -0.5px 4px #3a3a3a;
   box-shadow: 1.5px 1.5px 4px #2c2c2c, -0.5px -0.5px 4px #3a3a3a;
+}
+
+.result-modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  inset: 0 0;
+  padding-inline: 2rem;
+  z-index: 20;
+  background: var(--clr-cover);
+}
+
+.result-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 3rem 2rem 2rem;
+  background: #333333;
+}
+
+.img-preview {
+  width: 125px;
+  height: 125px;
+  overflow: hidden;
+  margin: 0 auto 0.5rem;
+}
+
+.user-img {
+  width: 100%;
+  height: 100%;
+}
+
+.result-field .result {
+  font-family: var(--ff-cutive);
+  font-size: 1.1rem;
+  margin-left: 10px;
+}
+
+.download-btn {
+  border: 2px solid #f5f5f5;
+  border-radius: 0.3em;
+  padding-block: 0.5rem 0.6rem;
+  margin-top: 1rem;
+}
+
+.form-alert {
+  color: var(--clr-error);
 }
 
 .chars {
@@ -143,8 +210,19 @@ button {
   padding-inline: 0.8rem;
 }
 
+.btn-primary {
+  font-size: 0.9rem;
+  border: 2px solid #f5f5f5;
+  border-radius: 0.3em;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: rgba(144, 136, 136, 0.439);
+}
+
 .correct {
-  color: var(--clr-succes);
+  color: var(--clr-success);
   font-weight: bold;
   border-width: 2px;
 }
@@ -162,7 +240,7 @@ button {
 
 .fill {
   -webkit-animation: fill 60s linear forwards;
-          animation: fill 60s linear forwards;
+  animation: fill 60s linear forwards;
 }
 
 .span-2 {

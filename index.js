@@ -3,27 +3,8 @@ import { renderWordsFromQuotes, calculateWPM } from './helpers/utils';
 import { fetchData, getQuotes } from './api/api';
 import Keyboard from './helpers/Keyboard';
 import Timer from './helpers/Timer';
-
-const updateCurrChar = (currCharEl, currChar, currIdx) => {
-    currCharEl.classList.add('correct');
-    currCharEl.classList.remove('incorrect');
-
-    if (!currCharEl.nextSibling) return;
-
-    currCharEl = currCharEl.nextSibling;
-    currChar = currCharEl.dataset.char;
-    currIdx++;
-
-    const charsContainer = currCharEl.parentElement;
-    const nextCharToFocus = charsContainer.children[currIdx + 4];
-
-    if (nextCharToFocus)
-        nextCharToFocus.focus();
-    else
-        charsContainer.lastChild.focus();
-
-    return [currCharEl, currChar, currIdx];
-};
+import Certificate from './helpers/Certificate';
+import ImageInput from './helpers/ImageInput';
 
 (function () {
     const specialKeys = [
@@ -43,11 +24,32 @@ const updateCurrChar = (currCharEl, currChar, currIdx) => {
         correctChars = 0,
         started = false;
 
+    const updateCurrChar = (currCharEl, currChar, currIdx) => {
+        currCharEl.classList.add('correct');
+        currCharEl.classList.remove('incorrect');
+
+        if (!currCharEl.nextSibling) return;
+
+        currCharEl = currCharEl.nextSibling;
+        currChar = currCharEl.dataset.char;
+        currIdx++;
+
+        const charsContainer = currCharEl.parentElement;
+        const nextCharToFocus = charsContainer.children[currIdx + 4];
+
+        if (nextCharToFocus)
+            nextCharToFocus.focus();
+        else
+            charsContainer.lastChild.focus();
+
+        return [currCharEl, currChar, currIdx];
+    };
+
     const typeHandler = e => {
         if (!started) {
             timerProgress.classList.add('fill');
             startModal.style.display = 'none';
-            new Timer('timer-1', 60);
+            new Timer('timer-1', 1);
             started = true;
             return;
         }
@@ -100,12 +102,45 @@ const updateCurrChar = (currCharEl, currChar, currIdx) => {
         currCharEl = document.querySelector('.char');
         currChar = currCharEl.dataset.char;
 
-        window.addEventListener('keydown', typeHandler);
+        window.addEventListener('keypress', typeHandler);
     });
 
     window.addEventListener('timer-end', () => {
-        window.removeEventListener('keydown', typeHandler);
+        window.removeEventListener('keypress', typeHandler);
         const wpm = calculateWPM(correctChars);
-        console.log(wpm + 'wpm');
+        const fromAlert = document.querySelector('.form-alert');
+        const nameInput = document.querySelector('input[type="text"]');
+        const resultModal = document.querySelector('.result-modal');
+        const resultField = document.querySelector('.result-field .result');
+        const downlaodBtn = document.querySelector('.download-btn');
+        const image = new ImageInput('input[type="file"]', '.user-img');
+
+        resultModal.style.display = 'flex';
+        resultField.textContent = wpm + 'wpm';
+
+        downlaodBtn.onclick = () => {
+            if (!nameInput.value) {
+                fromAlert.textContent = 'please enter your full name';
+                return;
+            }
+            fromAlert.textContent = '';
+
+            const isLoaded = image.complete && image.naturalHeight !== 0;
+            const certificateData = {
+                name: nameInput.value,
+                wpm: wpm,
+                img: image
+            }
+
+            if (isLoaded) {
+                const certificate = new Certificate(certificateData);
+                return certificate.downlaod();
+            }
+
+            image.onload = () => {
+                const certificate = new Certificate(certificateData);
+                certificate.downlaod();
+            }
+        };
     });
 })();

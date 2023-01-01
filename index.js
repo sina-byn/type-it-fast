@@ -49,14 +49,12 @@ import ImageInput from './helpers/ImageInput';
         if (!started) {
             timerProgress.classList.add('fill');
             startModal.style.display = 'none';
-            new Timer('timer-1', 1);
+            new Timer('timer-1', 60);
             started = true;
             return;
         }
 
-        const {
-            key
-        } = e;
+        const { key } = e;
         const keyboardKey = keyboard.getKeyEl(key);
         const isSpace = /\s/.test(key);
         const isSpecial = specialKeys.includes(key.toLowerCase()) ||

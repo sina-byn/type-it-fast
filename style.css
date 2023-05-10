@@ -87,6 +87,10 @@ label[for='img-input'] {
   background: var(--clr-cover);
 }
 
+.start-modal .modal-content {
+  text-align: center;
+}
+
 .timer {
   height: 80px;
 }
